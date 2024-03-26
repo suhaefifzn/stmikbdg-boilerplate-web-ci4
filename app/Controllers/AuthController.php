@@ -39,10 +39,10 @@ class AuthController extends BaseController {
             $userService = new UserService();
             $user = json_decode($userService->getMyProfile()->getBody())->data;
             $userProfile = $user->profile;
-            $userAccount = $user['account'];
+            $userAccount = $user->account;
 
             // verify role
-            if ($userAccount[$role]) {
+            if ($userAccount->$role) {
                 session()->set('role', [$role => true]);
             }
 
