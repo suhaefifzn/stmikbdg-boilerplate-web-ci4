@@ -49,9 +49,15 @@ class AuthController extends BaseController {
             session()->set('profile', $userProfile);
             session()->set('user_image', $user->account->image);
             session()->set('user_email', $user->account->email);
-        }
 
-        return redirect('home');
+            return redirect('home');
+        } else {
+            if (session()->has('token') and session()->has('role')) {
+                return redirect('home');
+            }
+
+            return self::redirectToVerifySite();
+        }
     }
 
     public function logout() {
@@ -60,6 +66,12 @@ class AuthController extends BaseController {
         }
 
         return self::redirectToLogout();
+    }
+
+    private function redirectToVerifySite() {
+        return redirect()->to(
+            getenv('LOGIN_BASE_URL') . 'verify?site=' . base_url()
+        );
     }
 
     private function redirectToLogin() {
