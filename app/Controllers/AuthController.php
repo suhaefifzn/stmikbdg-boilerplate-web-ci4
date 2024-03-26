@@ -39,13 +39,14 @@ class AuthController extends BaseController {
             $userService = new UserService();
             $user = json_decode($userService->getMyProfile()->getBody())->data;
             $userProfile = $user->profile;
+            $userAccount = $user['account'];
 
-            // save user data to session, data is array
-            $userRole = [
-                $role => true,
-            ];
+            // verify role
+            if ($userAccount[$role]) {
+                session()->set('role', [$role => true]);
+            }
 
-            session()->set('role', $userRole);
+            session()->set('account', $userAccount);
             session()->set('profile', $userProfile);
             session()->set('user_image', $user->account->image);
             session()->set('user_email', $user->account->email);
