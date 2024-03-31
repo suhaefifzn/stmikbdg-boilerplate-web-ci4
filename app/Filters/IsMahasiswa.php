@@ -28,8 +28,10 @@ class IsMahasiswa implements FilterInterface
     {
         $session = Services::session();
 
-        if (!isset($session->get('role')['is_mhs'])) {
-            return redirect('logout');
+        if ($session->has('account')) {
+            if (!$session->get('account')->is_mhs) {
+                return redirect('logout');
+            }
         }
     }
 

@@ -28,8 +28,10 @@ class IsDosen implements FilterInterface
     {
         $session = Services::session();
 
-        if (!isset($session->get('role')['is_dosen'])) {
-            return redirect('logout');
+        if ($session->has('account')) {
+            if (!$session->get('account')->is_dosen) {
+                return redirect('logout');
+            }
         }
     }
 

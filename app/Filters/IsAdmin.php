@@ -28,8 +28,10 @@ class IsAdmin implements FilterInterface
     {
         $session = Services::session();
 
-        if (!isset($session->get('role')['is_admin'])) {
-            return redirect('logout');
+        if ($session->has('account')) {
+            if (!$session->get('account')->is_admin) {
+                return redirect('logout');
+            }
         }
     }
 

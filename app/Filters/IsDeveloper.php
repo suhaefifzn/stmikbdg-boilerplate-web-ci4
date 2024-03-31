@@ -28,8 +28,10 @@ class IsDeveloper implements FilterInterface
     {
         $session = Services::session();
 
-        if (!isset($session->get('role')['is_dev'])) {
-            return redirect('logout');
+        if ($session->has('account')) {
+            if (!$session->get('account')->is_dev) {
+                return redirect('logout');
+            }
         }
     }
 
